@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ppn-trv — Simulateur d'éligibilité TRV pro</title>
+<title>Simulateur d'éligibilité TRV pro - Papernest</title>
 
 <style>
 .ppn-trv {
   /* Couleurs officielles Papernest */
-  --ppn-trv-blue: #1A53F0; /* Bleu principal */
-  --ppn-trv-blue-dark: #123CB6; /* Bleu foncé au survol */
-  --ppn-trv-blue-soft: #F0F4FF; /* Fond bleu clair */
-  --ppn-trv-dark: #1B1940; /* Bleu marine très foncé pour le texte */
-  --ppn-trv-muted: #6B6A85; /* Gris/bleu pour le texte secondaire */
-  --ppn-trv-line: #E5E7EB; /* Lignes et bordures */
+  --ppn-trv-blue: #1A53F0; 
+  --ppn-trv-blue-dark: #123CB6; 
+  --ppn-trv-blue-soft: #F0F4FF; 
+  --ppn-trv-dark: #1B1940; 
+  --ppn-trv-muted: #6B6A85; 
+  --ppn-trv-line: #E8E9ED; 
   
   /* Couleurs de résultats */
   --ppn-trv-bleu-tarif: #3D6BFF;
@@ -21,7 +21,7 @@
   --ppn-trv-vert-tarif: #0FA897;
   
   box-sizing: border-box;
-  max-width: 760px;
+  max-width: 680px; /* Légèrement plus étroit pour un aspect plus "app" */
   margin: 0 auto;
   font-family: "Avenir", "Avenir Next", system-ui, -apple-system, sans-serif;
   color: var(--ppn-trv-dark);
@@ -29,59 +29,83 @@
 
 .ppn-trv *, .ppn-trv *::before, .ppn-trv *::after { box-sizing: border-box; }
 .ppn-trv svg {
-  display: block; width: 22px; height: 22px;
+  display: block; 
   fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 
 /* ---------- Header global ---------- */
 .ppn-trv__main-title {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  font-size: 28px;
+  text-align: center;
+  gap: 16px;
+  font-size: 32px;
   font-weight: 800;
-  margin-bottom: 24px;
+  margin: 0 0 12px 0;
   color: var(--ppn-trv-dark);
+}
+.ppn-trv__main-title .icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: var(--ppn-trv-blue-soft);
+  color: var(--ppn-trv-blue);
+  border-radius: 50%;
 }
 .ppn-trv__main-title svg {
   width: 28px;
   height: 28px;
-  color: var(--ppn-trv-blue);
+}
+.ppn-trv__intro { 
+  text-align: center;
+  margin: 0 0 32px !important; 
+  font-size: 16px; 
+  line-height: 1.5; 
+  color: var(--ppn-trv-muted); 
 }
 
-/* ---------- Conteneur Carte ---------- */
+/* ---------- Conteneur Carte (Plus premium) ---------- */
 .ppn-trv__card {
   background: #ffffff;
-  border: 1px solid var(--ppn-trv-line);
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 4px 12px rgba(27, 25, 64, 0.04);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 12px 48px rgba(27, 25, 64, 0.06);
+  border: 1px solid rgba(27, 25, 64, 0.03);
 }
-
-.ppn-trv__intro { margin: 0 0 24px !important; font-size: 15px; line-height: 1.5; color: var(--ppn-trv-muted); }
 
 /* ---------- Étapes ---------- */
 .ppn-trv__step {
   display: none; 
   margin: 0 !important; padding: 0 !important;
   border: 0 !important;
-  animation: ppn-trv-in .25s ease-out;
+  animation: ppn-trv-fade-up .4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .ppn-trv__legend {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  float: left; width: 100%;
-  margin: 0 0 16px !important; padding: 0 !important;
-  font-size: 18px; font-weight: 700; line-height: 1.35; color: var(--ppn-trv-dark);
+  text-align: center;
+  width: 100%;
+  margin: 0 0 24px !important; padding: 0 !important;
+  font-size: 22px; font-weight: 800; line-height: 1.35; color: var(--ppn-trv-dark);
 }
-.ppn-trv__legend svg {
-  color: var(--ppn-trv-blue);
+.ppn-trv__legend small {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ppn-trv-muted);
+  margin-top: 6px;
 }
+
+/* Grille d'options aérée */
 .ppn-trv__opts {
-  clear: both;
-  display: grid; gap: 12px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 /* Radios accessibles */
@@ -90,35 +114,40 @@
   opacity: 0; margin: 0; pointer-events: none;
 }
 .ppn-trv__opt {
-  display: flex !important; align-items: center; gap: 12px;
-  margin: 0 !important; padding: 12px 16px;
-  background: #fff; border: 1px solid var(--ppn-trv-line); border-radius: 8px;
-  cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s;
+  display: flex !important; align-items: center; gap: 16px;
+  margin: 0 !important; padding: 16px 20px;
+  background: #fff; border: 2px solid var(--ppn-trv-line); border-radius: 12px;
+  cursor: pointer; 
+  transition: all .2s ease;
 }
-.ppn-trv__opt:hover { border-color: var(--ppn-trv-blue); }
+.ppn-trv__opt:hover { 
+  border-color: #C4D3FF; 
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26, 83, 240, 0.08);
+}
 .ppn-trv__ico {
-  flex: 0 0 38px; height: 38px; border-radius: 8px;
+  flex: 0 0 44px; height: 44px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
   background: var(--ppn-trv-blue-soft); color: var(--ppn-trv-blue);
 }
+.ppn-trv__ico svg { width: 22px; height: 22px; }
 .ppn-trv__lbl { display: flex; flex-direction: column; gap: 2px; }
-.ppn-trv__lbl strong { font-size: 15px; font-weight: 700; color: var(--ppn-trv-dark); }
-.ppn-trv__lbl small { font-size: 13px; line-height: 1.35; color: var(--ppn-trv-muted); }
+.ppn-trv__lbl strong { font-size: 16px; font-weight: 700; color: var(--ppn-trv-dark); }
+.ppn-trv__lbl small { font-size: 13.5px; line-height: 1.35; color: var(--ppn-trv-muted); }
 
 .ppn-trv__input:checked + .ppn-trv__opt { 
   border-color: var(--ppn-trv-blue); 
   background: var(--ppn-trv-blue-soft); 
-  box-shadow: 0 0 0 1px var(--ppn-trv-blue);
+  box-shadow: 0 4px 16px rgba(26, 83, 240, 0.15);
 }
-.ppn-trv__input:focus-visible + .ppn-trv__opt { outline: 2px solid var(--ppn-trv-blue); outline-offset: 2px; }
+.ppn-trv__input:focus-visible + .ppn-trv__opt { outline: 3px solid var(--ppn-trv-blue); outline-offset: 2px; }
 
-/* ---------- Résultats ---------- */
+/* ---------- Résultats (centrés et épurés) ---------- */
 .ppn-trv__result {
   display: none;
   --ppn-trv-accent: var(--ppn-trv-blue);
-  margin: 0; padding: 0;
-  background: #fff;
-  animation: ppn-trv-in .3s ease-out;
+  text-align: center;
+  animation: ppn-trv-fade-up .4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .ppn-trv__result--bleu  { --ppn-trv-accent: var(--ppn-trv-bleu-tarif); }
 .ppn-trv__result--jaune { --ppn-trv-accent: var(--ppn-trv-jaune-tarif); }
@@ -126,86 +155,95 @@
 .ppn-trv__result--non,
 .ppn-trv__result--nsp   { --ppn-trv-accent: var(--ppn-trv-muted); }
 
-.ppn-trv__rhead { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-.ppn-trv__rhead svg { flex: 0 0 28px; width: 28px; height: 28px; color: var(--ppn-trv-accent); }
-.ppn-trv__offer { margin: 0 !important; font-size: 20px; line-height: 1.25; font-weight: 800; color: var(--ppn-trv-dark); }
-.ppn-trv__offer span { color: var(--ppn-trv-accent); }
-.ppn-trv__txt { margin: 0 0 20px 40px !important; font-size: 15px; line-height: 1.55; color: var(--ppn-trv-muted); }
-.ppn-trv__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-left: 40px; }
+.ppn-trv__result-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--ppn-trv-blue-soft);
+  color: var(--ppn-trv-accent);
+  margin-bottom: 20px;
+}
+.ppn-trv__result-icon svg { width: 32px; height: 32px; }
 
-/* Bouton Papernest avec icône */
+.ppn-trv__offer { margin: 0 0 12px !important; font-size: 24px; line-height: 1.25; font-weight: 800; color: var(--ppn-trv-dark); }
+.ppn-trv__offer span { color: var(--ppn-trv-accent); }
+.ppn-trv__txt { margin: 0 auto 32px !important; max-width: 400px; font-size: 16px; line-height: 1.55; color: var(--ppn-trv-muted); }
+
+.ppn-trv__ctas { display: flex; justify-content: center; }
+
+/* Bouton Papernest CTA (Forme Pilule) */
 .ppn-trv__btn {
-  display: inline-flex; align-items: center; padding: 12px 20px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 16px 32px; border-radius: 99px; /* Forme pilule plus moderne */
   background: var(--ppn-trv-blue); color: #fff !important;
-  font-size: 15px; font-weight: 700; text-decoration: none !important;
-  transition: background .15s; border: none; cursor: pointer;
+  font-size: 17px; font-weight: 700; text-decoration: none !important;
+  transition: all .2s ease; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(26, 83, 240, 0.25);
 }
 .ppn-trv__btn svg {
-  width: 18px; height: 18px; margin-right: 8px; color: #fff;
+  width: 20px; height: 20px; margin-right: 10px; color: #fff;
 }
-.ppn-trv__btn:hover { background: var(--ppn-trv-blue-dark); }
+.ppn-trv__btn:hover { 
+  background: var(--ppn-trv-blue-dark); 
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26, 83, 240, 0.35);
+}
 
 /* ---------- Recommencer ---------- */
 .ppn-trv__reset {
-  display: none; align-items: center; gap: 6px;
-  margin: 20px 0 0 0; padding: 0;
+  display: none; justify-content: center; align-items: center; gap: 8px;
+  margin: 32px auto 0; padding: 10px 20px;
   background: none; border: 0; cursor: pointer;
-  font: inherit; font-size: 14px; font-weight: 700; color: var(--ppn-trv-muted);
+  font: inherit; font-size: 15px; font-weight: 700; color: var(--ppn-trv-muted);
+  transition: color .2s;
 }
-.ppn-trv__reset svg { width: 16px; height: 16px; }
+.ppn-trv__reset svg { width: 18px; height: 18px; }
 .ppn-trv__reset:hover { color: var(--ppn-trv-blue); }
 
-@keyframes ppn-trv-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes ppn-trv-fade-up { 
+  from { opacity: 0; transform: translateY(12px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+
 @media (max-width: 600px) {
-  .ppn-trv__main-title { font-size: 22px; }
-  .ppn-trv__txt, .ppn-trv__ctas { margin-left: 0 !important; }
-  .ppn-trv__btn { width: 100%; justify-content: center; }
+  .ppn-trv__card { padding: 32px 20px; }
+  .ppn-trv__main-title { font-size: 26px; }
+  .ppn-trv__legend { font-size: 20px; }
+  .ppn-trv__btn { width: 100%; }
 }
 
 /* =========================================================
    LOGIQUE DE TRANSITION (PAS D'EMPILEMENT)
    ========================================================= */
-
-/* 1. Étape Profil : Affichée par défaut, masquée si cochée */
 .ppn-trv__step--profil { display: block; }
 .ppn-trv:has(input[name="ppn-trv-profil"]:checked) .ppn-trv__step--profil { display: none; }
-
-/* 2. Étape Salariés : Affichée si Pro est coché ET Salariés n'est PAS coché */
 .ppn-trv:has(#ppn-trv-pro:checked):not(:has(input[name="ppn-trv-salaries"]:checked)) .ppn-trv__step--salaries { display: block; }
-
-/* 3. Étape CA : Affichée si Salariés < 10 est coché ET CA n'est PAS coché */
 .ppn-trv:has(#ppn-trv-sal-moins10:checked):not(:has(input[name="ppn-trv-ca"]:checked)) .ppn-trv__step--ca { display: block; }
-
-/* 4. Étape Puissance : Affichée si (Copro OU CA < 2M) ET Puissance n'est PAS coché */
 .ppn-trv:has(#ppn-trv-copro:checked):not(:has(input[name="ppn-trv-kva"]:checked)) .ppn-trv__step--kva,
 .ppn-trv:has(#ppn-trv-ca-moins2m:checked):not(:has(input[name="ppn-trv-kva"]:checked)) .ppn-trv__step--kva { display: block; }
-
-/* 5. Résultats */
-/* Refus immédiat si >= 10 salariés OU >= 2M CA */
 .ppn-trv:has(#ppn-trv-sal-plus10:checked) .ppn-trv__result--non,
 .ppn-trv:has(#ppn-trv-ca-plus2m:checked) .ppn-trv__result--non { display: block; }
-
-/* Succès (affiché uniquement une fois la puissance sélectionnée) */
 .ppn-trv:has(#ppn-trv-kva-bleu:checked) .ppn-trv__result--bleu { display: block; }
 .ppn-trv:has(#ppn-trv-kva-jaune:checked) .ppn-trv__result--jaune { display: block; }
 .ppn-trv:has(#ppn-trv-kva-vert:checked) .ppn-trv__result--vert { display: block; }
 .ppn-trv:has(#ppn-trv-kva-nsp:checked) .ppn-trv__result--nsp { display: block; }
-
-/* Afficher "Recommencer" dès la première réponse */
 .ppn-trv:has(.ppn-trv__input:checked) .ppn-trv__reset { display: flex; }
 </style>
 </head>
-<body style="margin:0;padding:40px 16px;background:#FAFAFA;">
+<body style="margin:0;padding:40px 16px;background:#F7F8FA;"> <!-- Fond gris très clair -->
 
 <form class="ppn-trv" aria-label="Simulateur d'éligibilité aux tarifs réglementés">
   
   <h2 class="ppn-trv__main-title">
+    <div class="icon-wrapper">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor" stroke="none"/></svg>
+    </div>
     Test d'éligibilité aux Tarifs Réglementés
   </h2>
+  
+  <p class="ppn-trv__intro">Répondez à quelques questions rapides et accédez immédiatement à votre statut.</p>
 
   <div class="ppn-trv__card">
-    <p class="ppn-trv__intro">Répondez à quelques questions rapides et accédez immédiatement à votre statut.</p>
-
+    
     <!-- ÉTAPE 1 : Profil -->
     <fieldset class="ppn-trv__step ppn-trv__step--profil">
       <legend class="ppn-trv__legend">Pour qui souhaitez-vous souscrire ?</legend>
@@ -223,7 +261,7 @@
       </div>
     </fieldset>
 
-    <!-- ÉTAPE 2 : Salariés (entreprise uniquement) -->
+    <!-- ÉTAPE 2 : Salariés -->
     <fieldset class="ppn-trv__step ppn-trv__step--salaries">
       <legend class="ppn-trv__legend">Combien de salariés compte votre entreprise ?</legend>
       <div class="ppn-trv__opts">
@@ -240,7 +278,7 @@
       </div>
     </fieldset>
 
-    <!-- ÉTAPE 3 : Chiffre d'affaires (entreprise de < 10 salariés uniquement) -->
+    <!-- ÉTAPE 3 : Chiffre d'affaires -->
     <fieldset class="ppn-trv__step ppn-trv__step--ca">
       <legend class="ppn-trv__legend">Quel est votre chiffre d'affaires annuel ?</legend>
       <div class="ppn-trv__opts">
@@ -257,7 +295,7 @@
       </div>
     </fieldset>
 
-    <!-- ÉTAPE 4 : Puissance / raccordement -->
+    <!-- ÉTAPE 4 : Puissance -->
     <fieldset class="ppn-trv__step ppn-trv__step--kva">
       <legend class="ppn-trv__legend">Quelle est votre puissance souscrite ?</legend>
       <div class="ppn-trv__opts">
@@ -284,18 +322,18 @@
       </div>
     </fieldset>
 
-    <!-- Résultats -->
+    <!-- ================= RÉSULTATS ================= -->
     <div aria-live="polite">
       
       <!-- Éligible Bleu -->
       <div class="ppn-trv__result ppn-trv__result--bleu">
-        <div class="ppn-trv__rhead">
+        <div class="ppn-trv__result-icon">
           <svg viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg>
-          <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Bleu</span></p>
         </div>
+        <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Bleu</span></p>
         <p class="ppn-trv__txt">Sans engagement, option Base ou Heures Creuses.</p>
         <div class="ppn-trv__ctas">
-          <a class="ppn-trv__btn" href="tel:0970252250,">
+          <a class="ppn-trv__btn" href="tel:0970252250">
             <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Appeler Papernest
           </a>
@@ -304,13 +342,13 @@
 
       <!-- Éligible Jaune -->
       <div class="ppn-trv__result ppn-trv__result--jaune">
-        <div class="ppn-trv__rhead">
+        <div class="ppn-trv__result-icon">
           <svg viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg>
-          <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Jaune</span></p>
         </div>
+        <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Jaune</span></p>
         <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
         <div class="ppn-trv__ctas">
-          <a class="ppn-trv__btn" href="tel:#">
+          <a class="ppn-trv__btn" href="tel:0970252250">
             <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Appeler Papernest
           </a>
@@ -319,13 +357,13 @@
 
       <!-- Éligible Vert (>250) -->
       <div class="ppn-trv__result ppn-trv__result--vert">
-        <div class="ppn-trv__rhead">
+        <div class="ppn-trv__result-icon">
           <svg viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg>
-          <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Vert</span></p>
         </div>
+        <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Vert</span></p>
         <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
         <div class="ppn-trv__ctas">
-          <a class="ppn-trv__btn" href="tel:#">
+          <a class="ppn-trv__btn" href="tel:0970252250">
             <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Appeler Papernest
           </a>
@@ -334,28 +372,28 @@
 
       <!-- NSP -->
       <div class="ppn-trv__result ppn-trv__result--nsp">
-        <div class="ppn-trv__rhead">
+        <div class="ppn-trv__result-icon">
           <svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-          <p class="ppn-trv__offer">Vous êtes éligible, reste à trouver le bon tarif</p>
         </div>
-        <p class="ppn-trv__txt">Votre puissance figure sur votre facture d'électricité. Un conseiller peut la vérifier avec vous.</p>
+        <p class="ppn-trv__offer">Reste à trouver le bon tarif !</p>
+        <p class="ppn-trv__txt">Votre puissance figure sur votre facture. Un conseiller peut la vérifier en direct avec vous.</p>
         <div class="ppn-trv__ctas">
-          <a class="ppn-trv__btn" href="tel:#">
+          <a class="ppn-trv__btn" href="tel:0970252250">
             <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Appeler Papernest
           </a>
         </div>
       </div>
 
-      <!-- Refusé (>= 10 salariés ou >= 2M CA) -->
+      <!-- Refusé -->
       <div class="ppn-trv__result ppn-trv__result--non">
-        <div class="ppn-trv__rhead">
+        <div class="ppn-trv__result-icon">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-          <p class="ppn-trv__offer">Le tarif réglementé n'est pas accessible</p>
         </div>
-        <p class="ppn-trv__txt">Il est réservé aux TPE et aux copropriétés. Nos conseillers peuvent vous orienter vers des offres de marché plus avantageuses.</p>
+        <p class="ppn-trv__offer">Le tarif réglementé n'est pas accessible</p>
+        <p class="ppn-trv__txt">Il est réservé aux TPE et aux copropriétés. Nos conseillers peuvent vous orienter vers des offres plus avantageuses.</p>
         <div class="ppn-trv__ctas">
-          <a class="ppn-trv__btn" href="tel:#">
+          <a class="ppn-trv__btn" href="tel:0970252250">
             <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Appeler Papernest
           </a>
@@ -370,5 +408,6 @@
   </button>
 
 </form>
+
 </body>
 </html>
