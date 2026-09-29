@@ -6,11 +6,11 @@
 <title>Simulateur d'éligibilité TRV pro - Papernest</title>
 
 <style>
-/* Forcer le fond blanc et enlever les marges par défaut */
+/* Supprimer TOUT espacement parasite du conteneur parent */
 html, body {
-  background-color: #ffffff !important;
-  margin: 0;
-  padding: 0;
+  background-color: transparent !important; /* Ou #ffffff */
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .ppn-trv {
@@ -29,10 +29,11 @@ html, body {
   
   box-sizing: border-box;
   max-width: 680px; 
-  margin: 0 auto;
-  padding: 24px 16px 0; /* Plus de vide en bas */
+  margin: 0 auto !important; /* Pas de marge en bas */
+  padding: 16px 16px 0px 16px !important; /* STRICTEMENT 0 padding en bas */
   font-family: "Avenir", "Avenir Next", system-ui, -apple-system, sans-serif;
   color: var(--ppn-trv-dark);
+  background-color: transparent;
 }
 
 .ppn-trv *, .ppn-trv *::before, .ppn-trv *::after { box-sizing: border-box; }
@@ -66,9 +67,10 @@ html, body {
   background: #ffffff;
   border-radius: 16px;
   padding: 32px 24px;
-  /* Ombre très légère pour détacher légèrement du fond blanc sans faire gris */
+  /* Ombre très légère */
   box-shadow: 0 4px 24px rgba(27, 25, 64, 0.04);
   border: 1px solid rgba(27, 25, 64, 0.03);
+  margin-bottom: 0 !important; /* Force la suppression de l'espace sous la carte */
 }
 
 /* ---------- Étapes ---------- */
@@ -186,7 +188,7 @@ html, body {
 /* ---------- Recommencer ---------- */
 .ppn-trv__reset {
   display: none; justify-content: center; align-items: center; gap: 8px;
-  margin: 16px auto 0; /* Réduction du vide sous le bouton */
+  margin: 12px auto 0 !important; /* Espacement minime si le bouton s'affiche */
   padding: 10px 20px;
   background: none; border: 0; cursor: pointer;
   font: inherit; font-size: 15px; font-weight: 700; color: var(--ppn-trv-muted);
