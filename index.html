@@ -6,6 +6,13 @@
 <title>Simulateur d'éligibilité TRV pro - Papernest</title>
 
 <style>
+/* Forcer le fond blanc et enlever les marges par défaut */
+html, body {
+  background-color: #ffffff !important;
+  margin: 0;
+  padding: 0;
+}
+
 .ppn-trv {
   /* Couleurs officielles Papernest */
   --ppn-trv-blue: #1A53F0; 
@@ -23,6 +30,7 @@
   box-sizing: border-box;
   max-width: 680px; 
   margin: 0 auto;
+  padding: 24px 16px 0; /* Plus de vide en bas */
   font-family: "Avenir", "Avenir Next", system-ui, -apple-system, sans-serif;
   color: var(--ppn-trv-dark);
 }
@@ -45,23 +53,9 @@
   margin: 0 0 12px 0;
   color: var(--ppn-trv-dark);
 }
-.ppn-trv__main-title .icon-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  background: var(--ppn-trv-blue-soft);
-  color: var(--ppn-trv-blue);
-  border-radius: 50%;
-}
-.ppn-trv__main-title svg {
-  width: 28px;
-  height: 28px;
-}
 .ppn-trv__intro { 
   text-align: center;
-  margin: 0 0 32px !important; 
+  margin: 0 0 24px !important; 
   font-size: 16px; 
   line-height: 1.5; 
   color: var(--ppn-trv-muted); 
@@ -71,8 +65,9 @@
 .ppn-trv__card {
   background: #ffffff;
   border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 12px 48px rgba(27, 25, 64, 0.06);
+  padding: 32px 24px;
+  /* Ombre très légère pour détacher légèrement du fond blanc sans faire gris */
+  box-shadow: 0 4px 24px rgba(27, 25, 64, 0.04);
   border: 1px solid rgba(27, 25, 64, 0.03);
 }
 
@@ -191,7 +186,8 @@
 /* ---------- Recommencer ---------- */
 .ppn-trv__reset {
   display: none; justify-content: center; align-items: center; gap: 8px;
-  margin: 32px auto 0; padding: 10px 20px;
+  margin: 16px auto 0; /* Réduction du vide sous le bouton */
+  padding: 10px 20px;
   background: none; border: 0; cursor: pointer;
   font: inherit; font-size: 15px; font-weight: 700; color: var(--ppn-trv-muted);
   transition: color .2s;
@@ -205,7 +201,7 @@
 }
 
 @media (max-width: 600px) {
-  .ppn-trv__card { padding: 32px 20px; }
+  .ppn-trv__card { padding: 24px 16px; }
   .ppn-trv__main-title { font-size: 26px; }
   .ppn-trv__legend { font-size: 20px; }
   .ppn-trv__btn { width: 100%; }
@@ -229,7 +225,7 @@
 .ppn-trv:has(.ppn-trv__input:checked) .ppn-trv__reset { display: flex; }
 </style>
 </head>
-<body style="margin:0;padding:40px 16px 12px;background:#ffffff;">
+<body>
 
 <form class="ppn-trv" aria-label="Simulateur d'éligibilité aux tarifs réglementés">
   
