@@ -5,85 +5,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ppn-trv — Simulateur d'éligibilité TRV pro</title>
 
-<!-- =========================================================
-     CSS — à placer dans le thème / WPCode (wp_kses_post supprime <style>)
-     100 % CSS : :checked + :has(), aucun JS.
-     Icônes : Lucide (lucide.dev, licence ISC), SVG inline.
-     ========================================================= -->
 <style>
 .ppn-trv {
-  --ppn-trv-violet: #5A52FF;
-  --ppn-trv-violet-dark: #463FE0;
-  --ppn-trv-violet-soft: #EFEEFF;
-  --ppn-trv-dark: #1B1940;
-  --ppn-trv-muted: #6B6A85;
-  --ppn-trv-line: #E6E5F0;
+  /* Couleurs inspirées de la DA (violet doux, gris clair, texte sombre) */
+  --ppn-trv-violet: #B692F6; /* Couleur du bouton "Rechercher" */
+  --ppn-trv-violet-dark: #9A6FF1;
+  --ppn-trv-violet-soft: #F4F0FF;
+  --ppn-trv-dark: #1B1B1B;
+  --ppn-trv-muted: #5A5A5A;
+  --ppn-trv-line: #E5E7EB;
   --ppn-trv-bleu: #3D6BFF;
   --ppn-trv-jaune: #E6A100;
   --ppn-trv-vert: #0FA897;
+  
   box-sizing: border-box;
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
-  font-family: "Avenir", "Avenir Next", -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--ppn-trv-dark);
 }
+
 .ppn-trv *, .ppn-trv *::before, .ppn-trv *::after { box-sizing: border-box; }
 .ppn-trv svg {
   display: block; width: 20px; height: 20px;
   fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 
-/* ---------- En-tête ---------- */
-.ppn-trv__title { margin: 0 0 6px !important; font-size: 26px; line-height: 1.25; font-weight: 800; color: var(--ppn-trv-dark); }
+/* ---------- Header global (Hors carte) ---------- */
+.ppn-trv__main-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: var(--ppn-trv-dark);
+}
+.ppn-trv__main-title svg {
+  width: 28px;
+  height: 28px;
+  color: #7C3AED; /* Violet plus intense pour l'icône, comme l'éclair */
+}
+
+/* ---------- Conteneur type Carte (Design DA) ---------- */
+.ppn-trv__card {
+  background: #ffffff;
+  border: 1px solid var(--ppn-trv-line);
+  border-radius: 8px; /* Angles DA */
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
 .ppn-trv__intro { margin: 0 0 24px !important; font-size: 15px; line-height: 1.5; color: var(--ppn-trv-muted); }
 
 /* ---------- Étapes ---------- */
 .ppn-trv__step {
-  display: block;
-  margin: 0 0 24px !important; padding: 0 !important;
+  display: none; /* Masqué par défaut */
+  margin: 0 !important; padding: 0 !important;
   border: 0 !important;
   animation: ppn-trv-in .25s ease-out;
 }
 .ppn-trv__legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   float: left; width: 100%;
-  margin: 0 0 12px !important; padding: 0 !important;
-  font-size: 17px; font-weight: 800; line-height: 1.35; color: var(--ppn-trv-dark);
+  margin: 0 0 16px !important; padding: 0 !important;
+  font-size: 18px; font-weight: 600; line-height: 1.35; color: var(--ppn-trv-dark);
+}
+.ppn-trv__legend svg {
+  color: var(--ppn-trv-muted);
 }
 .ppn-trv__opts {
   clear: both;
-  display: grid; gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  display: grid; gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
-/* Radios accessibles, visuellement masqués */
+/* Radios accessibles */
 .ppn-trv__input {
   position: absolute !important; width: 1px; height: 1px;
   opacity: 0; margin: 0; pointer-events: none;
 }
 .ppn-trv__opt {
   display: flex !important; align-items: center; gap: 12px;
-  margin: 0 !important; padding: 12px 14px;
-  background: #fff; border: 2px solid var(--ppn-trv-line); border-radius: 14px;
-  cursor: pointer; transition: border-color .15s, background .15s;
+  margin: 0 !important; padding: 12px 16px;
+  background: #fff; border: 1px solid var(--ppn-trv-line); border-radius: 6px;
+  cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s;
 }
-.ppn-trv__opt:hover { border-color: #C9C6F5; }
+.ppn-trv__opt:hover { border-color: var(--ppn-trv-violet-dark); }
 .ppn-trv__ico {
-  flex: 0 0 36px; height: 36px; border-radius: 10px;
+  flex: 0 0 36px; height: 36px; border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  background: var(--ppn-trv-violet-soft); color: var(--ppn-trv-violet);
+  background: var(--ppn-trv-violet-soft); color: var(--ppn-trv-violet-dark);
 }
-.ppn-trv__lbl { display: flex; flex-direction: column; gap: 1px; }
-.ppn-trv__lbl strong { font-size: 15px; font-weight: 800; color: var(--ppn-trv-dark); }
+.ppn-trv__lbl { display: flex; flex-direction: column; gap: 2px; }
+.ppn-trv__lbl strong { font-size: 15px; font-weight: 600; color: var(--ppn-trv-dark); }
 .ppn-trv__lbl small { font-size: 13px; line-height: 1.35; color: var(--ppn-trv-muted); }
-.ppn-trv__input:checked + .ppn-trv__opt { border-color: var(--ppn-trv-violet); background: var(--ppn-trv-violet-soft); }
-.ppn-trv__input:checked + .ppn-trv__opt .ppn-trv__ico { background: var(--ppn-trv-violet); color: #fff; }
-.ppn-trv__input:focus-visible + .ppn-trv__opt { outline: 3px solid var(--ppn-trv-violet); outline-offset: 2px; }
+
+.ppn-trv__input:checked + .ppn-trv__opt { 
+  border-color: var(--ppn-trv-violet-dark); 
+  background: var(--ppn-trv-violet-soft); 
+  box-shadow: 0 0 0 1px var(--ppn-trv-violet-dark);
+}
+.ppn-trv__input:focus-visible + .ppn-trv__opt { outline: 2px solid var(--ppn-trv-violet-dark); outline-offset: 2px; }
 
 /* ---------- Résultats ---------- */
 .ppn-trv__result {
-  --ppn-trv-accent: var(--ppn-trv-violet);
-  margin: 8px 0 0; padding: 22px 24px;
-  border-radius: 18px; border: 2px solid var(--ppn-trv-accent);
+  display: none;
+  --ppn-trv-accent: var(--ppn-trv-violet-dark);
+  margin: 0; padding: 0;
   background: #fff;
   animation: ppn-trv-in .3s ease-out;
 }
@@ -91,232 +122,216 @@
 .ppn-trv__result--jaune { --ppn-trv-accent: var(--ppn-trv-jaune); }
 .ppn-trv__result--vert  { --ppn-trv-accent: var(--ppn-trv-vert); }
 .ppn-trv__result--non,
-.ppn-trv__result--nsp   { --ppn-trv-accent: var(--ppn-trv-line); }
+.ppn-trv__result--nsp   { --ppn-trv-accent: var(--ppn-trv-muted); }
 
 .ppn-trv__rhead { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
 .ppn-trv__rhead svg { flex: 0 0 28px; width: 28px; height: 28px; color: var(--ppn-trv-accent); }
-.ppn-trv__result--non .ppn-trv__rhead svg,
-.ppn-trv__result--nsp .ppn-trv__rhead svg { color: var(--ppn-trv-muted); }
-.ppn-trv__offer { margin: 0 !important; font-size: 21px; line-height: 1.25; font-weight: 800; color: var(--ppn-trv-dark); }
+.ppn-trv__offer { margin: 0 !important; font-size: 20px; line-height: 1.25; font-weight: 700; color: var(--ppn-trv-dark); }
 .ppn-trv__offer span { color: var(--ppn-trv-accent); }
 .ppn-trv__txt { margin: 0 0 18px 40px !important; font-size: 15px; line-height: 1.55; color: var(--ppn-trv-muted); }
 .ppn-trv__ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-left: 40px; }
 .ppn-trv__btn {
-  display: inline-flex; align-items: center; padding: 11px 20px; border-radius: 999px;
+  display: inline-flex; align-items: center; padding: 10px 18px; border-radius: 6px; /* Design DA rectangulaire doux */
   background: var(--ppn-trv-violet); color: #fff !important;
-  font-size: 15px; font-weight: 700; text-decoration: none !important;
-  transition: background .15s;
+  font-size: 15px; font-weight: 600; text-decoration: none !important;
+  transition: background .15s; border: none; cursor: pointer;
 }
 .ppn-trv__btn:hover { background: var(--ppn-trv-violet-dark); }
-.ppn-trv__btn--ghost { background: #fff; color: var(--ppn-trv-violet) !important; box-shadow: inset 0 0 0 2px var(--ppn-trv-violet); }
+.ppn-trv__btn--ghost { background: #fff; color: var(--ppn-trv-violet-dark) !important; box-shadow: inset 0 0 0 1px var(--ppn-trv-violet-dark); }
 .ppn-trv__btn--ghost:hover { background: var(--ppn-trv-violet-soft); }
 
 /* ---------- Recommencer ---------- */
 .ppn-trv__reset {
   display: none; align-items: center; gap: 6px;
-  margin: 16px 0 0 auto; padding: 4px 0;
+  margin: 20px 0 0 0; padding: 0;
   background: none; border: 0; cursor: pointer;
-  font: inherit; font-size: 14px; font-weight: 700; color: var(--ppn-trv-muted);
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--ppn-trv-muted);
 }
 .ppn-trv__reset svg { width: 16px; height: 16px; }
-.ppn-trv__reset:hover { color: var(--ppn-trv-violet); }
+.ppn-trv__reset:hover { color: var(--ppn-trv-violet-dark); }
 
-@keyframes ppn-trv-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .ppn-trv__step, .ppn-trv__result { animation: none; } }
+@keyframes ppn-trv-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 @media (max-width: 600px) {
-  .ppn-trv__title { font-size: 22px; }
-  .ppn-trv__result { padding: 18px; }
+  .ppn-trv__main-title { font-size: 22px; }
   .ppn-trv__txt, .ppn-trv__ctas { margin-left: 0 !important; }
   .ppn-trv__btn { width: 100%; justify-content: center; }
 }
 
 /* =========================================================
-   LOGIQUE D'AFFICHAGE (arbre de décision)
+   LOGIQUE DE TRANSITION (REMPLACEMENT DES QUESTIONS)
    ========================================================= */
-.ppn-trv__step--taille,
-.ppn-trv__step--kva,
-.ppn-trv__result { display: none; }
 
-/* Étape 2 : taille → entreprise uniquement */
-.ppn-trv:has(#ppn-trv-pro:checked) .ppn-trv__step--taille { display: block; }
+/* 1. Étape Profil : Affichée par défaut, masquée si cochée */
+.ppn-trv__step--profil { display: block; }
+.ppn-trv:has(input[name="ppn-trv-profil"]:checked) .ppn-trv__step--profil { display: none; }
 
-/* Étape 3 : puissance → copropriété OU entreprise TPE */
-.ppn-trv:has(#ppn-trv-copro:checked) .ppn-trv__step--kva,
-.ppn-trv:has(#ppn-trv-pro:checked):has(#ppn-trv-tpe-oui:checked) .ppn-trv__step--kva { display: block; }
+/* 2. Étape Taille : Affichée si Pro est coché ET Taille n'est PAS coché */
+.ppn-trv:has(#ppn-trv-pro:checked):not(:has(input[name="ppn-trv-tpe"]:checked)) .ppn-trv__step--taille { display: block; }
 
-/* Résultats */
-.ppn-trv:has(#ppn-trv-pro:checked):has(#ppn-trv-tpe-non:checked) .ppn-trv__result--non { display: block; }
+/* 3. Étape Puissance : Affichée si (Copro coché OU TPE-Oui coché) ET Puissance n'est PAS coché */
+.ppn-trv:has(#ppn-trv-copro:checked):not(:has(input[name="ppn-trv-kva"]:checked)) .ppn-trv__step--kva,
+.ppn-trv:has(#ppn-trv-tpe-oui:checked):not(:has(input[name="ppn-trv-kva"]:checked)) .ppn-trv__step--kva { display: block; }
 
-.ppn-trv:has(#ppn-trv-copro:checked):has(#ppn-trv-kva-bleu:checked) .ppn-trv__result--bleu,
-.ppn-trv:has(#ppn-trv-pro:checked):has(#ppn-trv-tpe-oui:checked):has(#ppn-trv-kva-bleu:checked) .ppn-trv__result--bleu { display: block; }
+/* 4. Résultats : Affichés selon la dernière réponse */
+.ppn-trv:has(#ppn-trv-tpe-non:checked) .ppn-trv__result--non { display: block; }
+.ppn-trv:has(#ppn-trv-kva-bleu:checked) .ppn-trv__result--bleu { display: block; }
+.ppn-trv:has(#ppn-trv-kva-jaune:checked) .ppn-trv__result--jaune { display: block; }
+.ppn-trv:has(#ppn-trv-kva-vert:checked) .ppn-trv__result--vert { display: block; }
+.ppn-trv:has(#ppn-trv-kva-nsp:checked) .ppn-trv__result--nsp { display: block; }
 
-.ppn-trv:has(#ppn-trv-copro:checked):has(#ppn-trv-kva-jaune:checked) .ppn-trv__result--jaune,
-.ppn-trv:has(#ppn-trv-pro:checked):has(#ppn-trv-tpe-oui:checked):has(#ppn-trv-kva-jaune:checked) .ppn-trv__result--jaune { display: block; }
-
-.ppn-trv:has(#ppn-trv-copro:checked):has(#ppn-trv-kva-vert:checked) .ppn-trv__result--vert,
-.ppn-trv:has(#ppn-trv-pro:checked):has(#ppn-trv-tpe-oui:checked):has(#ppn-trv-kva-vert:checked) .ppn-trv__result--vert { display: block; }
-
-.ppn-trv:has(#ppn-trv-copro:checked):has(#ppn-trv-kva-nsp:checked) .ppn-trv__result--nsp,
-.ppn-trv:has(#ppn-trv-pro:checked):has(#ppn-trv-tpe-oui:checked):has(#ppn-trv-kva-nsp:checked) .ppn-trv__result--nsp { display: block; }
-
-/* "Recommencer" dès qu'une réponse est cochée */
+/* Afficher "Recommencer" dès la première réponse */
 .ppn-trv:has(.ppn-trv__input:checked) .ppn-trv__reset { display: flex; }
 </style>
 </head>
-<body style="margin:0;padding:40px 16px;background:#fff;">
+<body style="margin:0;padding:40px 16px;background:#FAFAFA;">
 
-<!-- =========================================================
-     HTML — bloc à coller (snippet HTML WPCode)
-     Remplacer les href="#" par les URLs de tunnel / callback.
-     ========================================================= -->
-<form class="ppn-trv" aria-label="Simulateur d'éligibilité aux tarifs réglementés d'électricité pour les professionnels">
+<form class="ppn-trv" aria-label="Simulateur d'éligibilité aux tarifs réglementés">
+  
+  <h2 class="ppn-trv__main-title">
+    <!-- Icône éclair inspirée de l'image -->
+    <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor" stroke="none"/></svg>
+    Test d'éligibilité aux Tarifs Réglementés
+  </h2>
 
-  <h3 class="ppn-trv__title">À quel tarif réglementé êtes-vous éligible&nbsp;?</h3>
-  <p class="ppn-trv__intro">Tarif Bleu, Jaune ou Vert : répondez à 3 questions.</p>
+  <div class="ppn-trv__card">
+    <p class="ppn-trv__intro">Répondez à quelques questions rapides et accédez immédiatement à votre statut.</p>
 
-  <!-- 1. Profil -->
-  <fieldset class="ppn-trv__step">
-    <legend class="ppn-trv__legend">Pour qui souhaitez-vous souscrire&nbsp;?</legend>
-    <div class="ppn-trv__opts">
-      <input class="ppn-trv__input" type="radio" name="ppn-trv-profil" id="ppn-trv-pro">
-      <label class="ppn-trv__opt" for="ppn-trv-pro">
-        <!-- lucide: briefcase -->
-        <span class="ppn-trv__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></span>
-        <span class="ppn-trv__lbl"><strong>Une entreprise</strong></span>
-      </label>
-      <input class="ppn-trv__input" type="radio" name="ppn-trv-profil" id="ppn-trv-copro">
-      <label class="ppn-trv__opt" for="ppn-trv-copro">
-        <!-- lucide: building-2 -->
-        <span class="ppn-trv__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></span>
-        <span class="ppn-trv__lbl"><strong>Une copropriété</strong><small>Immeuble d'habitation</small></span>
-      </label>
-    </div>
-  </fieldset>
-
-  <!-- 2. Taille (entreprise uniquement) -->
-  <fieldset class="ppn-trv__step ppn-trv__step--taille">
-    <legend class="ppn-trv__legend">Moins de 10 salariés et un chiffre d'affaires ≤&nbsp;2&nbsp;M€&nbsp;?</legend>
-    <div class="ppn-trv__opts">
-      <input class="ppn-trv__input" type="radio" name="ppn-trv-tpe" id="ppn-trv-tpe-oui">
-      <label class="ppn-trv__opt" for="ppn-trv-tpe-oui">
-        <!-- lucide: user-check -->
-        <span class="ppn-trv__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></span>
-        <span class="ppn-trv__lbl"><strong>Oui</strong></span>
-      </label>
-      <input class="ppn-trv__input" type="radio" name="ppn-trv-tpe" id="ppn-trv-tpe-non">
-      <label class="ppn-trv__opt" for="ppn-trv-tpe-non">
-        <!-- lucide: users -->
-        <span class="ppn-trv__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-        <span class="ppn-trv__lbl"><strong>Non</strong></span>
-      </label>
-    </div>
-  </fieldset>
-
-  <!-- 3. Puissance / raccordement -->
-  <fieldset class="ppn-trv__step ppn-trv__step--kva">
-    <legend class="ppn-trv__legend">Quelle est votre puissance souscrite&nbsp;?</legend>
-    <div class="ppn-trv__opts">
-      <input class="ppn-trv__input" type="radio" name="ppn-trv-kva" id="ppn-trv-kva-bleu">
-      <label class="ppn-trv__opt" for="ppn-trv-kva-bleu">
-        <!-- lucide: zap -->
-        <span class="ppn-trv__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
-        <span class="ppn-trv__lbl"><strong>36 kVA ou moins</strong><small>Compteur Linky</small></span>
-      </label>
-      <input class="ppn-trv__input" type="radio" name="ppn-trv-kva" id="ppn-trv-kva-jaune">
-      <label class="ppn-trv__opt" for="ppn-trv-kva-jaune">
-        <!-- lucide: factory -->
-        <span class="ppn-trv__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></span>
-        <span class="ppn-trv__lbl"><strong>De 37 à 250 kVA</strong><small>Basse tension, compteur PME-PMI</small></span>
-      </label>
-      <input class="ppn-trv__input" type="radio" name="ppn-trv-kva" id="ppn-trv-kva-vert">
-      <label class="ppn-trv__opt" for="ppn-trv-kva-vert">
-        <!-- lucide: utility-pole -->
-        <span class="ppn-trv__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20"/><path d="M2 5h20"/><path d="M3 3v2"/><path d="M7 3v2"/><path d="M17 3v2"/><path d="M21 3v2"/><path d="m19 5-7 7-7-7"/></svg></span>
-        <span class="ppn-trv__lbl"><strong>Haute tension (HTA)</strong><small>Compteur PME-PMI, SAPHIR ou ICE</small></span>
-      </label>
-      <input class="ppn-trv__input" type="radio" name="ppn-trv-kva" id="ppn-trv-kva-nsp">
-      <label class="ppn-trv__opt" for="ppn-trv-kva-nsp">
-        <!-- lucide: circle-help -->
-        <span class="ppn-trv__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
-        <span class="ppn-trv__lbl"><strong>Je ne sais pas</strong></span>
-      </label>
-    </div>
-  </fieldset>
-
-  <!-- Résultats -->
-  <div aria-live="polite">
-
-    <div class="ppn-trv__result ppn-trv__result--bleu">
-      <div class="ppn-trv__rhead">
-        <!-- lucide: badge-check -->
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg>
-        <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Bleu</span></p>
+    <!-- 1. Profil -->
+    <fieldset class="ppn-trv__step ppn-trv__step--profil">
+      <legend class="ppn-trv__legend">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        Pour qui souhaitez-vous souscrire ?
+      </legend>
+      <div class="ppn-trv__opts">
+        <input class="ppn-trv__input" type="radio" name="ppn-trv-profil" id="ppn-trv-pro">
+        <label class="ppn-trv__opt" for="ppn-trv-pro">
+          <span class="ppn-trv__ico"><svg viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></span>
+          <span class="ppn-trv__lbl"><strong>Une entreprise</strong></span>
+        </label>
+        <input class="ppn-trv__input" type="radio" name="ppn-trv-profil" id="ppn-trv-copro">
+        <label class="ppn-trv__opt" for="ppn-trv-copro">
+          <span class="ppn-trv__ico"><svg viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></span>
+          <span class="ppn-trv__lbl"><strong>Une copropriété</strong><small>Immeuble d'habitation</small></span>
+        </label>
       </div>
-      <p class="ppn-trv__txt">Sans engagement, option Base ou Heures Creuses.</p>
-      <div class="ppn-trv__ctas">
-        <a class="ppn-trv__btn" href="#">Un conseiller me rappelle</a>
-      </div>
-    </div>
+    </fieldset>
 
-    <div class="ppn-trv__result ppn-trv__result--jaune">
-      <div class="ppn-trv__rhead">
-        <!-- lucide: badge-check -->
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg>
-        <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Jaune</span></p>
+    <!-- 2. Taille (entreprise uniquement) -->
+    <fieldset class="ppn-trv__step ppn-trv__step--taille">
+      <legend class="ppn-trv__legend">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        Moins de 10 salariés et CA ≤ 2 M€ ?
+      </legend>
+      <div class="ppn-trv__opts">
+        <input class="ppn-trv__input" type="radio" name="ppn-trv-tpe" id="ppn-trv-tpe-oui">
+        <label class="ppn-trv__opt" for="ppn-trv-tpe-oui">
+          <span class="ppn-trv__ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></span>
+          <span class="ppn-trv__lbl"><strong>Oui</strong></span>
+        </label>
+        <input class="ppn-trv__input" type="radio" name="ppn-trv-tpe" id="ppn-trv-tpe-non">
+        <label class="ppn-trv__opt" for="ppn-trv-tpe-non">
+          <span class="ppn-trv__ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+          <span class="ppn-trv__lbl"><strong>Non</strong></span>
+        </label>
       </div>
-      <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
-      <div class="ppn-trv__ctas">
-        <a class="ppn-trv__btn" href="#">Je souscris en ligne</a>
-        <a class="ppn-trv__btn ppn-trv__btn--ghost" href="#">Un conseiller me rappelle</a>
-      </div>
-    </div>
+    </fieldset>
 
-    <div class="ppn-trv__result ppn-trv__result--vert">
-      <div class="ppn-trv__rhead">
-        <!-- lucide: badge-check -->
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg>
-        <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Vert</span></p>
+    <!-- 3. Puissance / raccordement -->
+    <fieldset class="ppn-trv__step ppn-trv__step--kva">
+      <legend class="ppn-trv__legend">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        Quelle est votre puissance souscrite ?
+      </legend>
+      <div class="ppn-trv__opts">
+        <input class="ppn-trv__input" type="radio" name="ppn-trv-kva" id="ppn-trv-kva-bleu">
+        <label class="ppn-trv__opt" for="ppn-trv-kva-bleu">
+          <span class="ppn-trv__ico"><svg viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+          <span class="ppn-trv__lbl"><strong>36 kVA ou moins</strong><small>Compteur Linky</small></span>
+        </label>
+        <input class="ppn-trv__input" type="radio" name="ppn-trv-kva" id="ppn-trv-kva-jaune">
+        <label class="ppn-trv__opt" for="ppn-trv-kva-jaune">
+          <span class="ppn-trv__ico"><svg viewBox="0 0 24 24"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></span>
+          <span class="ppn-trv__lbl"><strong>De 37 à 250 kVA</strong><small>Compteur PME-PMI</small></span>
+        </label>
+        <input class="ppn-trv__input" type="radio" name="ppn-trv-kva" id="ppn-trv-kva-vert">
+        <label class="ppn-trv__opt" for="ppn-trv-kva-vert">
+          <span class="ppn-trv__ico"><svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M2 5h20"/><path d="M3 3v2"/><path d="M7 3v2"/><path d="M17 3v2"/><path d="M21 3v2"/><path d="m19 5-7 7-7-7"/></svg></span>
+          <span class="ppn-trv__lbl"><strong>Haute tension (HTA)</strong><small>Compteur PME-PMI ou SAPHIR</small></span>
+        </label>
+        <input class="ppn-trv__input" type="radio" name="ppn-trv-kva" id="ppn-trv-kva-nsp">
+        <label class="ppn-trv__opt" for="ppn-trv-kva-nsp">
+          <span class="ppn-trv__ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
+          <span class="ppn-trv__lbl"><strong>Je ne sais pas</strong></span>
+        </label>
       </div>
-      <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
-      <div class="ppn-trv__ctas">
-        <a class="ppn-trv__btn" href="#">Je souscris en ligne</a>
-        <a class="ppn-trv__btn ppn-trv__btn--ghost" href="#">Un conseiller me rappelle</a>
-      </div>
-    </div>
+    </fieldset>
 
-    <div class="ppn-trv__result ppn-trv__result--nsp">
-      <div class="ppn-trv__rhead">
-        <!-- lucide: file-text -->
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-        <p class="ppn-trv__offer">Vous êtes éligible, reste à trouver le bon tarif</p>
+    <!-- Résultats -->
+    <div aria-live="polite">
+      <div class="ppn-trv__result ppn-trv__result--bleu">
+        <div class="ppn-trv__rhead">
+          <svg viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg>
+          <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Bleu</span></p>
+        </div>
+        <p class="ppn-trv__txt">Sans engagement, option Base ou Heures Creuses.</p>
+        <div class="ppn-trv__ctas">
+          <a class="ppn-trv__btn" href="#">Un conseiller me rappelle</a>
+        </div>
       </div>
-      <p class="ppn-trv__txt">Votre puissance (en kVA) figure sur votre facture d'électricité. Un conseiller peut aussi la vérifier avec vous.</p>
-      <div class="ppn-trv__ctas">
-        <a class="ppn-trv__btn" href="#">Un conseiller me rappelle</a>
-      </div>
-    </div>
 
-    <div class="ppn-trv__result ppn-trv__result--non">
-      <div class="ppn-trv__rhead">
-        <!-- lucide: circle-x -->
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-        <p class="ppn-trv__offer">Le tarif réglementé ne vous est pas accessible</p>
+      <div class="ppn-trv__result ppn-trv__result--jaune">
+        <div class="ppn-trv__rhead">
+          <svg viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg>
+          <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Jaune</span></p>
+        </div>
+        <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
+        <div class="ppn-trv__ctas">
+          <a class="ppn-trv__btn" href="#">Je souscris en ligne</a>
+          <a class="ppn-trv__btn ppn-trv__btn--ghost" href="#">Un conseiller me rappelle</a>
+        </div>
       </div>
-      <p class="ppn-trv__txt">Il est réservé aux TPE et aux copropriétés. Les offres de marché peuvent être plus avantageuses.</p>
-      <div class="ppn-trv__ctas">
-        <a class="ppn-trv__btn" href="#">Réduire mes factures</a>
+
+      <div class="ppn-trv__result ppn-trv__result--vert">
+        <div class="ppn-trv__rhead">
+          <svg viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg>
+          <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Vert</span></p>
+        </div>
+        <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
+        <div class="ppn-trv__ctas">
+          <a class="ppn-trv__btn" href="#">Je souscris en ligne</a>
+          <a class="ppn-trv__btn ppn-trv__btn--ghost" href="#">Un conseiller me rappelle</a>
+        </div>
+      </div>
+
+      <div class="ppn-trv__result ppn-trv__result--nsp">
+        <div class="ppn-trv__rhead">
+          <svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+          <p class="ppn-trv__offer">Vous êtes éligible, reste à trouver le bon tarif</p>
+        </div>
+        <p class="ppn-trv__txt">Votre puissance figure sur votre facture d'électricité. Un conseiller peut la vérifier avec vous.</p>
+        <div class="ppn-trv__ctas">
+          <a class="ppn-trv__btn" href="#">Un conseiller me rappelle</a>
+        </div>
+      </div>
+
+      <div class="ppn-trv__result ppn-trv__result--non">
+        <div class="ppn-trv__rhead">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="ppn-trv__offer">Le tarif réglementé n'est pas accessible</p>
+        </div>
+        <p class="ppn-trv__txt">Il est réservé aux TPE et aux copropriétés. Les offres de marché peuvent être plus avantageuses.</p>
+        <div class="ppn-trv__ctas">
+          <a class="ppn-trv__btn" href="#">Réduire mes factures</a>
+        </div>
       </div>
     </div>
-
   </div>
 
   <button class="ppn-trv__reset" type="reset">
-    <!-- lucide: rotate-ccw -->
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-    Recommencer
+    <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    Recommencer le simulateur
   </button>
 
 </form>
-
 </body>
 </html>
