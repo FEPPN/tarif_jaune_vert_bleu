@@ -21,7 +21,7 @@
   --ppn-trv-vert-tarif: #0FA897;
   
   box-sizing: border-box;
-  max-width: 680px; /* Légèrement plus étroit pour un aspect plus "app" */
+  max-width: 680px; 
   margin: 0 auto;
   font-family: "Avenir", "Avenir Next", system-ui, -apple-system, sans-serif;
   color: var(--ppn-trv-dark);
@@ -67,7 +67,7 @@
   color: var(--ppn-trv-muted); 
 }
 
-/* ---------- Conteneur Carte (Plus premium) ---------- */
+/* ---------- Conteneur Carte ---------- */
 .ppn-trv__card {
   background: #ffffff;
   border-radius: 16px;
@@ -142,7 +142,7 @@
 }
 .ppn-trv__input:focus-visible + .ppn-trv__opt { outline: 3px solid var(--ppn-trv-blue); outline-offset: 2px; }
 
-/* ---------- Résultats (centrés et épurés) ---------- */
+/* ---------- Résultats ---------- */
 .ppn-trv__result {
   display: none;
   --ppn-trv-accent: var(--ppn-trv-blue);
@@ -170,10 +170,10 @@
 
 .ppn-trv__ctas { display: flex; justify-content: center; }
 
-/* Bouton Papernest CTA (Forme Pilule) */
+/* Bouton Papernest CTA */
 .ppn-trv__btn {
   display: inline-flex; align-items: center; justify-content: center;
-  padding: 16px 32px; border-radius: 99px; /* Forme pilule plus moderne */
+  padding: 16px 32px; border-radius: 99px;
   background: var(--ppn-trv-blue); color: #fff !important;
   font-size: 17px; font-weight: 700; text-decoration: none !important;
   transition: all .2s ease; border: none; cursor: pointer;
@@ -212,7 +212,7 @@
 }
 
 /* =========================================================
-   LOGIQUE DE TRANSITION (PAS D'EMPILEMENT)
+   LOGIQUE DE TRANSITION
    ========================================================= */
 .ppn-trv__step--profil { display: block; }
 .ppn-trv:has(input[name="ppn-trv-profil"]:checked) .ppn-trv__step--profil { display: none; }
@@ -229,7 +229,7 @@
 .ppn-trv:has(.ppn-trv__input:checked) .ppn-trv__reset { display: flex; }
 </style>
 </head>
-<body style="margin:0;padding:40px 16px;background:#F7F8FA;"> <!-- Fond gris très clair -->
+<body style="margin:0;padding:40px 16px 12px;background:#ffffff;">
 
 <form class="ppn-trv" aria-label="Simulateur d'éligibilité aux tarifs réglementés">
   
