@@ -14,8 +14,8 @@ html, body {
 }
 
 #ppn-wrapper {
-  overflow: hidden; 
-  padding: 16px 16px 24px 16px; /* Marge interne sécurisée pour l'ombre */
+  /* On ajoute assez de padding en bas pour laisser respirer l'ombre de la carte */
+  padding: 16px 16px 40px 16px; 
 }
 
 .ppn-trv {
@@ -267,8 +267,10 @@ html, body {
   function sendHeight() {
     const wrapper = document.getElementById('ppn-wrapper');
     if (wrapper && window.parent && window.parent !== window) {
-      // Mesure la hauteur totale (offsetHeight) du div
-      window.parent.postMessage({ type: 'resize', height: wrapper.offsetHeight }, '*');
+      // scrollHeight capture le contenu complet. On ajoute 30px de sécurité 
+      // pour que l'ombre et la bordure s'affichent parfaitement.
+      const trueHeight = wrapper.scrollHeight + 30;
+      window.parent.postMessage({ type: 'resize', height: trueHeight }, '*');
     }
   }
 
