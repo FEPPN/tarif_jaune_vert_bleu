@@ -83,11 +83,7 @@ html, body {
 .ppn-trv__offer { margin: 0 0 12px !important; font-size: 24px; line-height: 1.25; font-weight: 800; color: var(--ppn-trv-dark); }
 .ppn-trv__offer span { color: var(--ppn-trv-accent); }
 .ppn-trv__txt { margin: 0 auto 32px !important; max-width: 400px; font-size: 16px; line-height: 1.55; color: var(--ppn-trv-muted); }
-.ppn-trv__ctas { display: flex; justify-content: center; }
-
-.ppn-trv__btn { display: inline-flex; align-items: center; justify-content: center; padding: 16px 32px; border-radius: 99px; background: var(--ppn-trv-blue); color: #fff !important; font-size: 17px; font-weight: 700; text-decoration: none !important; transition: all .2s ease; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(26, 83, 240, 0.25); }
-.ppn-trv__btn svg { width: 20px; height: 20px; margin-right: 10px; color: #fff; }
-.ppn-trv__btn:hover { background: var(--ppn-trv-blue-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26, 83, 240, 0.35); }
+.ppn-trv__ctas { display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; }
 
 /* ---------- Recommencer ---------- */
 .ppn-trv__reset { display: none; justify-content: center; align-items: center; gap: 8px; margin: 24px auto 0 !important; padding: 10px 20px; background: none; border: 0; cursor: pointer; font: inherit; font-size: 15px; font-weight: 700; color: var(--ppn-trv-muted); transition: color .2s; }
@@ -100,7 +96,6 @@ html, body {
   .ppn-trv__card { padding: 24px 16px; }
   .ppn-trv__main-title { font-size: 26px; }
   .ppn-trv__legend { font-size: 20px; }
-  .ppn-trv__btn { width: 100%; }
 }
 
 /* LOGIQUE CSS */
@@ -219,7 +214,10 @@ html, body {
           <div class="ppn-trv__result-icon"><svg viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg></div>
           <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Bleu</span></p>
           <p class="ppn-trv__txt">Sans engagement, option Base ou Heures Creuses.</p>
-          <div class="ppn-trv__ctas"><a class="ppn-trv__btn" href="tel:0970252250"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler Papernest</a></div>
+          <div class="ppn-trv__ctas">
+            <ppn-cta call-text="$EDF_Numero_Service_Client_Particuliers$" cta-color="primary" cta-position="center"></ppn-cta>
+            <ppn-cta call-text="Faites vos devis avec papernest : 09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+          </div>
         </div>
 
         <!-- Éligible Jaune -->
@@ -227,7 +225,10 @@ html, body {
           <div class="ppn-trv__result-icon"><svg viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg></div>
           <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Jaune</span></p>
           <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
-          <div class="ppn-trv__ctas"><a class="ppn-trv__btn" href="tel:0970252250"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler Papernest</a></div>
+          <div class="ppn-trv__ctas">
+            <ppn-cta call-text="$EDF_Numero_Service_Client_Particuliers$" cta-color="primary" cta-position="center"></ppn-cta>
+            <ppn-cta call-text="Faites vos devis avec papernest : 09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+          </div>
         </div>
 
         <!-- Éligible Vert (>250) -->
@@ -235,7 +236,10 @@ html, body {
           <div class="ppn-trv__result-icon"><svg viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.75Z"/><path d="m9 12 2 2 4-4"/></svg></div>
           <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Vert</span></p>
           <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
-          <div class="ppn-trv__ctas"><a class="ppn-trv__btn" href="tel:0970252250"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler Papernest</a></div>
+          <div class="ppn-trv__ctas">
+            <ppn-cta call-text="$EDF_Numero_Service_Client_Particuliers$" cta-color="primary" cta-position="center"></ppn-cta>
+            <ppn-cta call-text="Faites vos devis avec papernest : 09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+          </div>
         </div>
 
         <!-- NSP -->
@@ -243,7 +247,9 @@ html, body {
           <div class="ppn-trv__result-icon"><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></div>
           <p class="ppn-trv__offer">Vous êtes éligible ! Reste à trouver le bon tarif.</p>
           <p class="ppn-trv__txt">Votre puissance figure sur votre facture. Un conseiller peut la vérifier en direct avec vous.</p>
-          <div class="ppn-trv__ctas"><a class="ppn-trv__btn" href="tel:0970252250"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler Papernest</a></div>
+          <div class="ppn-trv__ctas">
+            <ppn-cta style="width:142px" call-text="09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+          </div>
         </div>
 
         <!-- Refusé -->
@@ -251,7 +257,9 @@ html, body {
           <div class="ppn-trv__result-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></div>
           <p class="ppn-trv__offer">Le tarif réglementé n'est pas accessible</p>
           <p class="ppn-trv__txt">Il est réservé aux TPE et aux copropriétés. Nos conseillers peuvent vous orienter vers des offres plus avantageuses.</p>
-          <div class="ppn-trv__ctas"><a class="ppn-trv__btn" href="tel:0970252250"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler Papernest</a></div>
+          <div class="ppn-trv__ctas">
+            <ppn-cta style="width:142px" call-text="09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+          </div>
         </div>
       </div>
     </div>
