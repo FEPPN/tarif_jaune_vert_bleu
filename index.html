@@ -14,7 +14,6 @@ html, body {
 }
 
 #ppn-wrapper {
-  /* On ajoute assez de padding en bas pour laisser respirer l'ombre de la carte */
   padding: 16px 16px 40px 16px; 
 }
 
@@ -84,6 +83,47 @@ html, body {
 .ppn-trv__offer span { color: var(--ppn-trv-accent); }
 .ppn-trv__txt { margin: 0 auto 32px !important; max-width: 400px; font-size: 16px; line-height: 1.55; color: var(--ppn-trv-muted); }
 .ppn-trv__ctas { display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; }
+
+/* ---------- Boutons HTML classiques ---------- */
+.ppn-trv__btn {
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  padding: 14px 28px; 
+  border-radius: 99px; 
+  background: var(--ppn-trv-blue); 
+  color: #fff !important; 
+  font-size: 16px; 
+  font-weight: 700; 
+  text-decoration: none !important; 
+  transition: all .2s ease; 
+  border: 2px solid var(--ppn-trv-blue); 
+  cursor: pointer; 
+  box-shadow: 0 4px 16px rgba(26, 83, 240, 0.25); 
+  text-align: center; 
+  width: 100%; 
+  max-width: 380px;
+}
+.ppn-trv__btn:hover { 
+  background: var(--ppn-trv-blue-dark); 
+  border-color: var(--ppn-trv-blue-dark); 
+  transform: translateY(-2px); 
+  box-shadow: 0 8px 24px rgba(26, 83, 240, 0.35); 
+}
+
+/* Variante : Bouton non cliquable (ex: EDF) */
+.ppn-trv__btn--static {
+  background: #fff; 
+  color: var(--ppn-trv-blue) !important; 
+  cursor: text; 
+  box-shadow: none;
+}
+.ppn-trv__btn--static:hover {
+  background: #fff;
+  border-color: var(--ppn-trv-blue);
+  transform: none;
+  box-shadow: none;
+}
 
 /* ---------- Recommencer ---------- */
 .ppn-trv__reset { display: none; justify-content: center; align-items: center; gap: 8px; margin: 24px auto 0 !important; padding: 10px 20px; background: none; border: 0; cursor: pointer; font: inherit; font-size: 15px; font-weight: 700; color: var(--ppn-trv-muted); transition: color .2s; }
@@ -215,8 +255,8 @@ html, body {
           <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Bleu</span></p>
           <p class="ppn-trv__txt">Sans engagement, option Base ou Heures Creuses.</p>
           <div class="ppn-trv__ctas">
-            <ppn-cta call-text="$EDF_Numero_Service_Client_Particuliers$" cta-color="primary" cta-position="center"></ppn-cta>
-            <ppn-cta call-text="Faites vos devis avec papernest : 09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+            <div class="ppn-trv__btn ppn-trv__btn--static">EDF : $EDF_Numero_Service_Client_Particuliers$</div>
+            <a class="ppn-trv__btn" href="tel:0970252198">Faites vos devis avec Papernest : 09 70 25 21 98</a>
           </div>
         </div>
 
@@ -226,8 +266,8 @@ html, body {
           <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Jaune</span></p>
           <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
           <div class="ppn-trv__ctas">
-            <ppn-cta call-text="$EDF_Numero_Service_Client_Particuliers$" cta-color="primary" cta-position="center"></ppn-cta>
-            <ppn-cta call-text="Faites vos devis avec papernest : 09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+            <div class="ppn-trv__btn ppn-trv__btn--static">EDF : $EDF_Numero_Service_Client_Particuliers$</div>
+            <a class="ppn-trv__btn" href="tel:0970252198">Faites vos devis avec Papernest : 09 70 25 21 98</a>
           </div>
         </div>
 
@@ -237,8 +277,8 @@ html, body {
           <p class="ppn-trv__offer">Vous êtes éligible au <span>Tarif Vert</span></p>
           <p class="ppn-trv__txt">Sans engagement, fourniture et acheminement inclus.</p>
           <div class="ppn-trv__ctas">
-            <ppn-cta call-text="$EDF_Numero_Service_Client_Particuliers$" cta-color="primary" cta-position="center"></ppn-cta>
-            <ppn-cta call-text="Faites vos devis avec papernest : 09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+            <div class="ppn-trv__btn ppn-trv__btn--static">EDF : $EDF_Numero_Service_Client_Particuliers$</div>
+            <a class="ppn-trv__btn" href="tel:0970252198">Faites vos devis avec Papernest : 09 70 25 21 98</a>
           </div>
         </div>
 
@@ -248,7 +288,7 @@ html, body {
           <p class="ppn-trv__offer">Vous êtes éligible ! Reste à trouver le bon tarif.</p>
           <p class="ppn-trv__txt">Votre puissance figure sur votre facture. Un conseiller peut la vérifier en direct avec vous.</p>
           <div class="ppn-trv__ctas">
-            <ppn-cta style="width:142px" call-text="09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+            <a class="ppn-trv__btn" href="tel:0970252198">09 70 25 21 98</a>
           </div>
         </div>
 
@@ -258,7 +298,7 @@ html, body {
           <p class="ppn-trv__offer">Le tarif réglementé n'est pas accessible</p>
           <p class="ppn-trv__txt">Il est réservé aux TPE et aux copropriétés. Nos conseillers peuvent vous orienter vers des offres plus avantageuses.</p>
           <div class="ppn-trv__ctas">
-            <ppn-cta style="width:142px" call-text="09 70 25 21 98" cta-color="primary" cta-position="center"></ppn-cta>
+            <a class="ppn-trv__btn" href="tel:0970252198">09 70 25 21 98</a>
           </div>
         </div>
       </div>
@@ -272,29 +312,23 @@ html, body {
 </div>
 
 <script>
-  // Envoie la taille réelle du conteneur parent au site web
   function sendHeight() {
     const wrapper = document.getElementById('ppn-wrapper');
     if (wrapper && window.parent && window.parent !== window) {
-      // scrollHeight capture le contenu complet. On ajoute 30px de sécurité 
-      // pour que l'ombre et la bordure s'affichent parfaitement.
       const trueHeight = wrapper.scrollHeight + 30;
       window.parent.postMessage({ type: 'resize', height: trueHeight }, '*');
     }
   }
 
-  // Utiliser ResizeObserver pour détecter automatiquement le moindre pixel qui change
   const observer = new ResizeObserver(() => {
     sendHeight();
   });
   
-  // On observe le wrapper principal
   window.addEventListener('DOMContentLoaded', () => {
     observer.observe(document.getElementById('ppn-wrapper'));
     sendHeight();
   });
 
-  // Déclencheur supplémentaire au cas où l'animation prend du temps
   document.addEventListener('change', () => {
     setTimeout(sendHeight, 50);
     setTimeout(sendHeight, 450);
